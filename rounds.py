@@ -1,6 +1,6 @@
 import random
 
-print("Welcome to the Area and Perimeter Quiz!")
+print("Welcome to the Perimeter Quiz!")
 print()
 def instructions():
     print()
@@ -8,7 +8,7 @@ def instructions():
 
     print()
 
-    print(" Find the Area and the Perimeter!, try to answer correctly.")
+    print(" Find the Perimeter!, try to answer correctly.")
 
 def string_checker(question, valid_ans = ('yes', 'no')):
 
@@ -63,6 +63,18 @@ def int_check(question, exit_code=None):
             # if the response is not an integer, displays an error
             print(error)
 
+# compared user/ computer choice and returns
+    # result (correct / wrong)
+
+def quiz_compare(user, comp):
+# there is one way to get correct answer
+ if user == comp:
+     result = "correct"
+# if it's not correct then it's wrong
+ else:
+     result = "wrong"
+
+ return result
 
 # Instructions
 # ask user if they want to see the instructions and display
@@ -79,15 +91,100 @@ if want_instructions == "yes":
 
 mode = "regular"
 rounds_played = 0
+comp=0
+round_correct = 0
+round_wrong =0
 
-# Choose number between two integers
-random_integer = random.randint(1,100)
+quiz_list = user=comp
+game_history = []
 
 # ask users for number of rounds / quizzes
 rounds_wanted = int_check("How many rounds?", "")
 
-# set rounds_wanted to number
-rounds_wanted = 5
 
-print("𝓻𝓸𝓾𝓷𝓭𝓼_𝔀𝓪𝓷𝓽𝓮𝓭", rounds_wanted)
+
+# game loop starts here
+
+print("rounds_wanted", rounds_wanted)
+while rounds_played < rounds_wanted:
+
+# Rounds headings
+
+    rounds_heading = f"\n💕 Round {rounds_played + 1} of {rounds_wanted}💕"
+    print(rounds_heading)
+
+
+
+
+
+    # Generate random length and width
+
+    length = random.randint(1,20)
+    width = random.randint(1,20)
+
+    print("Rectangle dimension:")
+    print("Length =", length )
+    print("Width =", width)
+
+    # equations
+
+
+    perimeter = 2 * (length + width)
+
+
+    user_perimeter = int(input("Enter the Perimeter :"))
+
+    result = quiz_compare(user_perimeter, perimeter)
+    print(f" your answer:{user_perimeter} correct answer:{perimeter}, result: {result}")
+
+
+
+    # Adjust quiz correct/ wrong counters and add results to quiz history
+
+    if result == "wrong":
+       round_wrong +=1
+       feedback = "😒😒 wrong. 😒😒"
+
+    else:
+        feedback = "🎉🎉 correct. 🎉🎉"
+
+
+    # Set up round feedback and output it user.
+    # Add it to the quiz history list (include the round number)
+
+    round_feedback = f"{user_perimeter} vs {perimeter}, {feedback}"
+    history_item = f"Round: {rounds_played + 1} - {result}"
+    print(result)
+    game_history.append(history_item)
+
+    # end of the round!!
+    rounds_played += 1
+# Game loop ends here
+
+
+
+# Calculate statistics
+rounds_won = rounds_played - round_correct - round_wrong
+percent_won = rounds_won / rounds_played * 100
+percent_lost = round_wrong / rounds_played * 100
+
+
+
+# Output Game Statistics
+print("📊📊📊 Game Statistics 📊📊📊")
+print(f"🎉 correct: {percent_won:.2f}\t"
+     f" 😢 wrong: {percent_lost:.2f} \t")
+
+
+# ask user if they want to see their quiz history and output it if requested.
+see_history = string_checker("\nDo you want to see your results? ")
+if see_history == "yes":
+    for item in game_history:
+        print(item)
+
+    print()
+    print("Thanks for taking the quiz. ")
+
+
+
 
